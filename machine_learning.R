@@ -1,5 +1,3 @@
-source('common.R')
-
 # Load the package
 library(rpart)
 library(e1071)
@@ -16,6 +14,7 @@ smp_size <-  nrow(mushrooms) * 2 / 3
 set.seed(123)
 
 train_ind <- sample(seq_len(nrow(mushrooms)), size = smp_size)
+
 train_mushrooms <- mushrooms[train_ind, ]
 test_mushrooms <- mushrooms[-train_ind, ]
 
@@ -27,23 +26,21 @@ p <- table(pred, test_mushrooms$class)
 
 accuracy_naive <- sum(p[row(p) == col(p)]) / sum(p)
 
-sprintf("The accuracy of the Naive Bayes prediction is %s%s",
+sprintf("Percentage dat naive bayes goed heeft is: %s%s",
         round(accuracy_naive * 100, 1),
         "%")
 
 # Decision Tree Theory
 fit <- rpart(train_mushrooms$class ~ ., data = train_mushrooms)
-class.pred <-
-  table(predict(fit, newdata = test_mushrooms, type = 'class'),
-        test_mushrooms$class)
+fit
+class.pred <- table(predict(fit, newdata = test_mushrooms, type = 'class'), test_mushrooms$class)
 accuracy_tree <- sum(diag(class.pred)) / sum(class.pred)
 
-sprintf("The accuracy of the Decision Tree prediction is %s%s",
+sprintf("Percentage dat decision tree goed heeft is: %s%s",
         round(accuracy_tree * 100, 1),
         "%")
 
-
-
+#DB_SCAN
 stars <- read.csv('stars.csv')
 
 ## Set the seed to make your partition reproductible
